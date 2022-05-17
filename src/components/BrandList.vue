@@ -31,7 +31,12 @@
       <q-scroll-area style="height: 55vh">
         <q-card class="q-ma-md">
           <q-list separator>
-            <q-item v-for="product in state.products" :key="product.id">
+            <q-item
+              clickable
+              @click="selectProduct(product.id)"
+              v-for="product in state.products"
+              :key="product.id"
+            >
               <q-item-section avatar>
                 <q-avatar style="height: 125px; width: 180px" square>
                   <img :src="`/img/${product.graphicName}`" />
@@ -45,14 +50,77 @@
         </q-card>
       </q-scroll-area>
     </div>
+    <q-dialog
+      v-model="state.productSelected"
+      transition-show="rotate"
+      transition-hide="rotate"
+    >
+      <q-card>
+        <q-card-actions align="right">
+          <q-btn flat label="X" color="primary" v-close-popup class="text-h5" />
+        </q-card-actions>
+        <q-card-section class="q-pa-none text-center">
+          <q-avatar style="height: 180px; width: 260px" square>
+            <img
+              :src="`/img/${state.selectedProduct.graphicName}`"
+              class="item-image"
+            />
+          </q-avatar>
+        </q-card-section>
+        <q-item-section class="text-h5 text-center text-primary">
+          {{ state.selectedProduct.productName }} -
+          {{ formatCurrency(state.selectedProduct.msrp) }}
+        </q-item-section>
+        <q-card-section>
+          {{ state.selectedProduct.description }}
+        </q-card-section>
+        <q-card-section>
+          <div class="row">
+            <div class="col-2 q-mr-sm">
+              <q-input
+                v-model.number="state.qty"
+                type="number"
+                filled
+                style="max-width: 15vw"
+                placeholder="qty"
+                hint="Qty"
+                dense
+              />
+            </div>
+            <div class="col-4 q-mr-sm">
+              <q-btn
+                color="primary"
+                label="Add To Cart"
+                :disable="state.qty < 0"
+                @click="addToCart()"
+              />
+            </div>
+            <div class="col-4">
+              <q-btn
+                color="primary"
+                label="View Cart"
+                :disable="state.cart.length < 1"
+                @click="viewCart()"
+              />
+            </div>
+          </div>
+        </q-card-section>
+        <q-card-section class="text-center text-positive">
+          {{ state.dialogStatus }}
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
+import { formatCurrency } from "../utils/formatutils";
 import { reactive, onMounted } from "vue";
 import { fetcher } from "../utils/apiutil";
+import { useRouter } from "vue-router";
 export default {
   setup() {
+    const router = useRouter();
     onMounted(() => {
       loadBrands();
     });
@@ -62,6 +130,11 @@ export default {
       products: [],
       selectedBrand: {},
       selectedBrandId: "",
+      selectedProduct: {},
+      dialogStatus: "",
+      productSelected: false,
+      qty: 0,
+      cart: [],
     });
 
     const loadBrands = async () => {
@@ -95,9 +168,63 @@ ${state.selectedBrand.name}`;
       }
     };
 
+    const selectProduct = async (productid) => {
+      try {
+        // q-item click sends us the id, so we need to find the object
+        state.selectedProduct = state.products.find(
+          (item) => item.id === productid
+        );
+        state.productSelected = true;
+        state.dialogStatus = "";
+        if (sessionStorage.getItem("cart")) {
+          state.cart = JSON.parse(sessionStorage.getItem("cart"));
+        }
+      } catch (err) {
+        console.log(err);
+        state.status = `Error has occured: ${err.message}`;
+      }
+    };
+    const addToCart = () => {
+      let index = -1;
+      if (state.cart.length > 0) {
+        index = state.cart.findIndex(
+          // is item already on the cart
+          (item) => item.id === state.selectedProduct.id
+        );
+      }
+      if (state.qty > 0) {
+        index === -1 // add
+          ? state.cart.push({
+              id: state.selectedProduct.id,
+              qty: state.qty,
+              item: state.selectedProduct,
+            })
+          : (state.cart[index] = {
+              // replace
+              id: state.selectedProduct.id,
+              qty: state.qty,
+              item: state.selectedProduct,
+            });
+        state.dialogStatus = `${state.qty} product(s) added`;
+      } else {
+        index === -1 ? null : state.cart.splice(index, 1); // remove
+        state.dialogStatus = `product(s) removed`;
+      }
+      sessionStorage.setItem("cart", JSON.stringify(state.cart));
+      state.qty = 0;
+    };
+
+    const viewCart = () => {
+      router.push("cart");
+    };
+
     return {
       state,
       loadProducts,
+      selectProduct,
+      addToCart,
+      formatCurrency,
+      viewCart,
     };
   },
 };
