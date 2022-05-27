@@ -26,9 +26,30 @@ const routes = [
 
       //Carts
       {
-        path: "/cart",
         name: "cart",
+        path: "/cart",
         component: () => import("components/CartContainer.vue"),
+      },
+
+      //Register
+      {
+        name: "register",
+        path: "/register",
+        component: () => import("components/RegisterCustomer.vue"),
+      },
+
+      //Login
+      {
+        name: "login",
+        path: "/login",
+        component: () => import("components/LoginCustomer.vue"),
+      },
+
+      //logout
+      {
+        name: "logout",
+        path: "/logout",
+        component: () => import("components/LogoutCustomer.vue"),
       },
     ],
   },

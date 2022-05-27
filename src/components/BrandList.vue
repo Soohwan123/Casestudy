@@ -4,7 +4,10 @@
       <q-avatar style="height: 125px; width: 180px">
         <img :src="`/img/Laptop.png`" />
       </q-avatar>
-      <div v-bind:style="{ color: ' #1976D2', fontSize: 40 + 'px' }">
+      <div
+        class="text-bold"
+        v-bind:style="{ color: ' #203245', fontSize: 40 + 'px' }"
+      >
         Our Brands
       </div>
       <div class="text-positive q-mt-lg">{{ state.status }}</div>
@@ -23,7 +26,7 @@
       />
 
       <div
-        class="text-h5 text-bold text-center text-info"
+        class="text-h5 text-bold text-center text-primary"
         v-if="state.products.length > 0"
       >
         {{ state.selectedBrand.name }} ITEMS
@@ -99,6 +102,7 @@
               <q-btn
                 color="primary"
                 label="View Cart"
+                style="height: 56px"
                 :disable="state.cart.length < 1"
                 @click="viewCart()"
               />
@@ -135,6 +139,7 @@ export default {
       productSelected: false,
       qty: 0,
       cart: [],
+      order: [],
     });
 
     const loadBrands = async () => {
@@ -205,12 +210,23 @@ ${state.selectedBrand.name}`;
               qty: state.qty,
               item: state.selectedProduct,
             });
+        index === -1 // add
+          ? state.order.push({
+              qty: state.qty,
+              item: state.selectedProduct,
+            })
+          : (state.order[index] = {
+              // replace
+              qty: state.qty,
+              item: state.selectedProduct,
+            });
         state.dialogStatus = `${state.qty} product(s) added`;
       } else {
         index === -1 ? null : state.cart.splice(index, 1); // remove
         state.dialogStatus = `product(s) removed`;
       }
       sessionStorage.setItem("cart", JSON.stringify(state.cart));
+      sessionStorage.setItem("order", JSON.stringify(state.order));
       state.qty = 0;
     };
 
