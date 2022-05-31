@@ -1,42 +1,48 @@
 <template>
-  <div class="text-center">
-    <q-avatar style="height: 70px; width: 110px; margin-top: 20px">
-      <img :src="`/img/Laptop.png`" />
-    </q-avatar>
-  </div>
-  <div class="text-h4 text-center q-mt-md q-mb-md">Login</div>
-  <div class="text-title2 text-center text-positive text-bold q-mt-sm">
-    {{ state.status }}
-  </div>
-  <q-card class="q-ma-md q-pa-md">
-    <q-form
-      ref="myForm"
-      class="q-gutter-md"
-      greedy
-      @submit="login"
-      @reset="resetFields"
-    >
-      <q-input
-        outlined
-        placeholder="enter email address"
-        id="email"
-        v-model="state.email"
-        :rules="[isRequired, isValidEmail]"
-      />
-      <q-input
-        outlined
-        placeholder="enter password"
-        id="password"
-        type="password"
-        v-model="state.password"
-        :rules="[isRequired]"
-        autocomplete="on"
-      />
-      <q-btn label="Login" type="submit" />
-      <q-btn label="Reset" type="reset" />
-    </q-form>
-  </q-card>
-  <router-view></router-view>
+  <body>
+    <div class="text-center">
+      <q-avatar style="height: 70px; width: 110px; margin-top: 20px">
+        <img :src="`/img/Laptop.png`" />
+      </q-avatar>
+    </div>
+    <div class="text-center">
+      <q-avatar style="height: 120px; width: 220px; margin-top: -4px">
+        <img :src="`/img/login.jpg`" />
+      </q-avatar>
+    </div>
+    <div class="text-title2 text-center text-positive text-bold q-mt-sm">
+      {{ state.status }}
+    </div>
+    <q-card class="q-ma-md q-pa-md">
+      <q-form
+        ref="myForm"
+        class="q-gutter-md"
+        greedy
+        @submit="login"
+        @reset="resetFields"
+      >
+        <q-input
+          outlined
+          placeholder="enter email address"
+          id="email"
+          v-model="state.email"
+          :rules="[isRequired, isValidEmail]"
+        />
+        <q-input
+          outlined
+          placeholder="enter password"
+          id="password"
+          type="password"
+          v-model="state.password"
+          :rules="[isRequired]"
+          autocomplete="on"
+        />
+        <q-btn rounded label="Sign in" type="submit" color="info" />
+        <q-btn rounded label="Reset" type="reset" />
+      </q-form>
+    </q-card>
+    <router-view></router-view>
+  </body>
 </template>
 <script>
 import { reactive } from "vue";
