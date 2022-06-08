@@ -7,25 +7,30 @@
     }"
   >
     <div class="text-center">
-      <q-avatar style="height: 70px; width: 110px; margin-top: 20px">
+      <q-avatar style="height: 125px; width: 180px; margin-top: 20px">
         <img :src="`/img/Laptop.png`" />
       </q-avatar>
-      <div class="text-h1 q-mt-lg text-primary text-bold">Home</div>
-      <div
-        class="text-h3 q-mt-lg text-warning text-bold text-left"
-        style="margin-top: 80px"
-      >
-        Experience clear and simple laptop buying.
+      <div class="text-h2 q-mt-lg text-primary text-bold">Home</div>
+      <div style="background-color: azure">
+        <div
+          class="text-h4 q-mt-lg text-warning text-left"
+          style="margin-top: 200px"
+        >
+          Experience clear and simple laptop buying.
+        </div>
       </div>
-      <div
-        class="text-h5 q-mt-lg text-white text-bold text-left"
-        style="margin-top: 90px"
-      >
-        Everything you want is ready for you.
+      <div style="background-color: azure">
+        <div
+          class="text-h6 q-mt-lg text-warning text-left"
+          style="margin-top: 20px"
+        >
+          Everything you want is ready for you.
+        </div>
       </div>
+
       <div
-        class="text-h5 q-mt-lg text-warning text-bold text-left"
-        style="margin-top: 230px"
+        class="text-h6 q-mt-lg text-warning text-bold text-left"
+        style="margin-top: 500px"
       >
         .
       </div>

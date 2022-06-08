@@ -51,6 +51,13 @@ const routes = [
         path: "/logout",
         component: () => import("components/LogoutCustomer.vue"),
       },
+
+      //Orders
+      {
+        name: "orders",
+        path: "/orders",
+        component: () => import("components/OrderList.vue"),
+      },
     ],
   },
   // Always leave this as last one,
