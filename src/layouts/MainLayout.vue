@@ -12,6 +12,9 @@
               <q-item clickable v-close-popup to="brands">
                 <q-item-section>Brands</q-item-section>
               </q-item>
+              <q-item clickable v-close-popup to="branch">
+                <q-item-section>Branches</q-item-section>
+              </q-item>
               <q-item clickable v-close-popup to="login">
                 <q-item-section>Login</q-item-section>
               </q-item>

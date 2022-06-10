@@ -58,6 +58,12 @@ const routes = [
         path: "/orders",
         component: () => import("components/OrderList.vue"),
       },
+
+      {
+        path: "/branch",
+        name: "branch",
+        component: () => import("src/components/Branch.vue"),
+      },
     ],
   },
   // Always leave this as last one,
