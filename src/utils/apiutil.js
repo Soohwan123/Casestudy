@@ -1,4 +1,4 @@
-/* const serverURL = "https://localhost:7184/api/"; */
+//"https://localhost:7184/api/";
 const serverURL = "/api/";
 
 const fetcher = async (endpoint) => {
